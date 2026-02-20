@@ -1,12 +1,14 @@
-import { View, Text, ActivityIndicator, StyleSheet} from "react-native"
+import { View, Text, ActivityIndicator, StyleSheet, Pressable} from "react-native"
 import { Link, router, Stack } from "expo-router"
-import { useCameraPermissions, CameraView, } from "expo-camera"
-import { useEffect } from "react"
+import { useCameraPermissions, CameraView, CameraType } from "expo-camera"
+import { useEffect, useState, useRef} from "react"
 import { MaterialIcons } from '@expo/vector-icons'
 
 
 export default function CameraScreen () {
 const [permission, requestPermission] = useCameraPermissions()
+const [facing, setFacing] = useState<CameraType>('back')
+const camera = useRef<CameraView>(null)
 useEffect (()=>{
 if (permission && !permission.granted && permission.canAskAgain){
     requestPermission()
@@ -17,10 +19,19 @@ if (!permission?.granted){
     return <ActivityIndicator/>
 }
 
+const toggleCameraFacing = () => {
+    setFacing ((current) => (current === 'back' ? 'front' : 'back'))
+}
+
     return(
         <View>
            
-            <CameraView style ={styles.camera}></CameraView>
+            <CameraView ref={camera} style ={styles.camera} facing={facing}>
+            <View style = {styles.footer}>
+                <View/>
+                <Pressable style ={styles.recordButton}/>
+            <MaterialIcons name="flip-camera-ios" color={'white'} size={24} onPress={toggleCameraFacing}/>
+            </View>
             <Link href = "/">Home</Link>
             <MaterialIcons 
             name = 'close' 
@@ -28,7 +39,7 @@ if (!permission?.granted){
             style = {styles.close} 
             size={30} 
             onPress={()=> router.back()}/>
-
+            </CameraView>
         </View>
     )
 
@@ -45,6 +56,23 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 50,
         left:20,
+    },
+
+    footer:{
+        marginTop: 'auto',
+        padding: 20,
+        paddingBottom: 50,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '00000099'
+
+    },
+    recordButton:{
+        width: 50,
+        height: 50,
+        borderRadius:50,
+        backgroundColor:'white'
     }
 
 }
