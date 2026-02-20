@@ -23,9 +23,9 @@ export default function HomeScreen () {
       </Text>
 
 
-            <Link href = "/image">Image 1</Link>
-            <Link href = "/image">Image 2</Link>
-            <Link href = "/image">Image 3</Link>
+            <Link href = "/image 1">Image 1</Link>
+            <Link href = "/image 2">Image 2</Link>
+            <Link href = "/image 3">Image 3</Link>
     </View>
     )
 
