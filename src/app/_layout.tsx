@@ -6,11 +6,12 @@ export default function RootLayout (){
     return (
     <Stack>
       <Stack.Screen
-        name="camera"
+        name="index"
         options={{
-          headerShown: false,
+          title: 'Home'
         }}
       />
+       <Stack.Screen name="camera" options = {{headerShown: false}}/>
     </Stack>
   );
 }

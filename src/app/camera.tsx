@@ -1,7 +1,9 @@
-import { View, Text, ActivityIndicator,} from "react-native"
-import { Link } from "expo-router"
-import { useCameraPermissions, CameraView } from "expo-camera"
+import { View, Text, ActivityIndicator, StyleSheet} from "react-native"
+import { Link, router, Stack } from "expo-router"
+import { useCameraPermissions, CameraView, } from "expo-camera"
 import { useEffect } from "react"
+import { MaterialIcons } from '@expo/vector-icons'
+
 
 export default function CameraScreen () {
 const [permission, requestPermission] = useCameraPermissions()
@@ -16,10 +18,36 @@ if (!permission?.granted){
 }
 
     return(
-        <View style ={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-            <CameraView style ={{width: '100%', height:'100%'}}></CameraView>
+        <View>
+           
+            <CameraView style ={styles.camera}></CameraView>
             <Link href = "/">Home</Link>
+            <MaterialIcons 
+            name = 'close' 
+            color={'white'} 
+            style = {styles.close} 
+            size={30} 
+            onPress={()=> router.back()}/>
+
         </View>
     )
 
 }
+
+const styles = StyleSheet.create({
+    
+    camera: {
+    width: '100%', 
+    height:'100%'
+    },
+
+    close:{
+        position: 'absolute',
+        top: 50,
+        left:20,
+    }
+
+}
+
+
+)

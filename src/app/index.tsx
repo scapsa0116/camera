@@ -38,8 +38,8 @@ backgroundColor: 'royalblue',
 padding: 15, 
 borderRadius: 50, 
 position: 'absolute',
-bottom: 10, 
-right: 10
+bottom: 30, 
+right: 30
 }
 
 })
