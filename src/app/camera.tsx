@@ -1,6 +1,6 @@
-import { View, Text, ActivityIndicator, StyleSheet, Pressable} from "react-native"
+import { View, Text, ActivityIndicator, StyleSheet, Pressable, Image} from "react-native"
 import { Link, router, Stack } from "expo-router"
-import { useCameraPermissions, CameraView, CameraType } from "expo-camera"
+import { useCameraPermissions, CameraView, CameraType, CameraCapturedPicture } from "expo-camera"
 import { useEffect, useState, useRef} from "react"
 import { MaterialIcons } from '@expo/vector-icons'
 
@@ -9,6 +9,9 @@ export default function CameraScreen () {
 const [permission, requestPermission] = useCameraPermissions()
 const [facing, setFacing] = useState<CameraType>('back')
 const camera = useRef<CameraView>(null)
+const [picture, setPicture] = useState<CameraCapturedPicture>()
+
+
 useEffect (()=>{
 if (permission && !permission.granted && permission.canAskAgain){
     requestPermission()
@@ -23,13 +26,35 @@ const toggleCameraFacing = () => {
     setFacing ((current) => (current === 'back' ? 'front' : 'back'))
 }
 
+const takePicture = async ()=>{
+    const res = await camera.current?.takePictureAsync()
+    setPicture(res)
+}
+
+if (picture) {
+    <View>
+        <Image source={{uri: picture.uri}}
+        style = {{width:'100%', height: '100%'}}
+        />
+        <MaterialIcons
+    onPress={() => {
+      setPicture(undefined);
+    }}
+    name="close"
+    size={35}
+    color="white"
+    style={{ position: 'absolute', top: 50, left: 20 }}
+  />
+    </View>
+}
+
     return(
         <View>
            
             <CameraView ref={camera} style ={styles.camera} facing={facing}>
             <View style = {styles.footer}>
                 <View/>
-                <Pressable style ={styles.recordButton}/>
+                <Pressable style ={styles.recordButton} onPress = {takePicture}/>
             <MaterialIcons name="flip-camera-ios" color={'white'} size={24} onPress={toggleCameraFacing}/>
             </View>
             <Link href = "/">Home</Link>
