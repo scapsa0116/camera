@@ -1,8 +1,25 @@
 import { View, Text, Pressable, StyleSheet} from "react-native"
 import { Link } from "expo-router"
 import {MaterialIcons} from '@expo/vector-icons'
+import { useEffect } from "react"
+import * as FileSystem from 'expo-file-system';
+
 
 export default function HomeScreen () {
+
+    useEffect(()=>{
+       loadFiles()
+    },[])
+
+    const loadFiles= async () => {
+
+        if(!FileSystem.documentDirectory){
+            return;
+        }
+        const res = await FileSystem.readDirectoryAsync(
+            FileSystem.documentDirectory
+        )
+    }
 
 
     return(

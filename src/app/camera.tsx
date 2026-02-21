@@ -1,9 +1,11 @@
-import { View, Text, ActivityIndicator, StyleSheet, Pressable, Image} from "react-native"
+import { View, Text, ActivityIndicator, StyleSheet, Pressable, Image,Button,SafeAreaView} from "react-native"
 import { Link, router, Stack } from "expo-router"
 import { useCameraPermissions, CameraView, CameraType, CameraCapturedPicture } from "expo-camera"
 import { useEffect, useState, useRef} from "react"
 import { MaterialIcons } from '@expo/vector-icons'
-
+import { documentDirectory } from "expo-file-system"
+import * as FileSystem from 'expo-file-system';
+import path from "path"
 
 export default function CameraScreen () {
 const [permission, requestPermission] = useCameraPermissions()
@@ -31,10 +33,12 @@ const takePicture = async ()=>{
     setPicture(res)
 }
 
+
+
 if (picture) {
-    <View>
+    <View style ={{flex:1 }}>
         <Image source={{uri: picture.uri}}
-        style = {{width:'100%', height: '100%'}}
+        style = {{width:'100%', flex:1 }}
         />
         <MaterialIcons
     onPress={() => {
@@ -48,15 +52,34 @@ if (picture) {
     </View>
 }
 
+const saveFile = async (uri: string) => {
+  const filename = path.parse(uri).base;
+  
+  await FileSystem.copyAsync({
+    from: uri,
+    to: FileSystem.documentDirectory + filename,
+  });
+  setPicture(undefined);
+
+  router.push('/');
+};
+
     return(
         <View>
            
             <CameraView ref={camera} style ={styles.camera} facing={facing}>
-            <View style = {styles.footer}>
+        <View style = {styles.footer}>
                 <View/>
                 <Pressable style ={styles.recordButton} onPress = {takePicture}/>
-            <MaterialIcons name="flip-camera-ios" color={'white'} size={24} onPress={toggleCameraFacing}/>
-            </View>
+               <MaterialIcons name="flip-camera-ios" color={'white'} size={24} onPress={toggleCameraFacing}/>
+        </View>
+
+        <View style={{ padding: 10 }}>
+             <SafeAreaView edges={['bottom']}>
+             <Button title="Save" onPress={() => saveFile(picture.uri)}/>
+            </SafeAreaView>
+        </View>
+
             <Link href = "/">Home</Link>
             <MaterialIcons 
             name = 'close' 
