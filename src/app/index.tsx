@@ -19,6 +19,7 @@ export default function HomeScreen () {
         const res = await FileSystem.readDirectoryAsync(
             FileSystem.documentDirectory
         )
+        console.log(res)
     }
 
 
