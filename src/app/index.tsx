@@ -1,11 +1,18 @@
 import { View, Text, Pressable, StyleSheet} from "react-native"
 import { Link } from "expo-router"
 import {MaterialIcons} from '@expo/vector-icons'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import * as FileSystem from 'expo-file-system';
+import { documentDirectory, readDirectoryAsync } from "expo-file-system/build/legacy";
 
+type Media ={
+    name: string,
+    uri: string
 
+}
 export default function HomeScreen () {
+   const [images, setImages ] = useState<Media[]>([])
+
 
     useEffect(()=>{
        loadFiles()
@@ -19,7 +26,12 @@ export default function HomeScreen () {
         const res = await FileSystem.readDirectoryAsync(
             FileSystem.documentDirectory
         )
-        console.log(res)
+
+        setImages(res.map((file) => ({
+            name:file,
+            uri: FileSystem.documentDirectory + file,
+        }))
+      )
     }
 
 

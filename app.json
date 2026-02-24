@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "camera",
-    "slug": "camera", 
+    "slug": "camera",
     "scheme": "your-app-scheme",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -19,7 +19,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -35,6 +39,13 @@
           "recordAudioAndroid": true
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "5d8ffb3a-d144-40c7-978c-e8a854e58e6a"
+      }
+    },
+    "owner": "stela"
   }
 }
