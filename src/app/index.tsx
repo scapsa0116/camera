@@ -1,9 +1,8 @@
-import { View, Text, Pressable, StyleSheet} from "react-native"
+import { View, Text, Pressable, StyleSheet, FlatList, Image} from "react-native"
 import { Link } from "expo-router"
 import {MaterialIcons} from '@expo/vector-icons'
 import { useEffect, useState } from "react"
 import * as FileSystem from 'expo-file-system';
-import { documentDirectory, readDirectoryAsync } from "expo-file-system/build/legacy";
 
 type Media ={
     name: string,
@@ -19,10 +18,10 @@ export default function HomeScreen () {
     },[])
 
     const loadFiles= async () => {
-
         if(!FileSystem.documentDirectory){
             return;
         }
+        
         const res = await FileSystem.readDirectoryAsync(
             FileSystem.documentDirectory
         )
@@ -37,6 +36,9 @@ export default function HomeScreen () {
 
     return(
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+            <FlatList data = {images} renderItem = {({item}) => (
+                <Image source = {{uri: item.uri}} style = {{width: 100, height: 100}}/>
+            )}/>
            
 
 
