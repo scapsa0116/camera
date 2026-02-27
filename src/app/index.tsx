@@ -3,6 +3,7 @@ import { Link, useFocusEffect } from "expo-router"
 import {MaterialIcons} from '@expo/vector-icons'
 import { useEffect, useState, useCallback} from "react"
 import * as FileSystem from 'expo-file-system/legacy';
+const { documentDirectory } = FileSystem;
 
 type Media ={
     name: string,
