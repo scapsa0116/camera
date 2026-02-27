@@ -1,8 +1,8 @@
-import { View, Text, Pressable, StyleSheet, FlatList, Image} from "react-native"
-import { Link } from "expo-router"
+import { View, Text, Pressable, StyleSheet, FlatList, Image,} from "react-native"
+import { Link, useFocusEffect } from "expo-router"
 import {MaterialIcons} from '@expo/vector-icons'
-import { useEffect, useState } from "react"
-import * as FileSystem from 'expo-file-system';
+import { useEffect, useState, useCallback} from "react"
+import * as FileSystem from 'expo-file-system/legacy';
 
 type Media ={
     name: string,
@@ -13,15 +13,20 @@ export default function HomeScreen () {
    const [images, setImages ] = useState<Media[]>([])
 
 
+   useFocusEffect(
+    useCallback(() => {
+      loadFiles();
+    }, [])
+  );
+
+
     useEffect(()=>{
        loadFiles()
     },[])
 
     const loadFiles= async () => {
-        if(!FileSystem.documentDirectory){
+        if(!FileSystem.documentDirectory)
             return;
-        }
-        
         const res = await FileSystem.readDirectoryAsync(
             FileSystem.documentDirectory
         )
@@ -37,27 +42,21 @@ export default function HomeScreen () {
     return(
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <FlatList data = {images} renderItem = {({item}) => (
-                <Image source = {{uri: item.uri}} style = {{width: 100, height: 100}}/>
+                <Link href={`/${item.name}`} asChild>
+                <Pressable 
+                style = {{flex: 1, maxWidth: '33.33%'}}
+                contentContainerStyle={{ gap: 1 }}
+                columnWrapperStyle={{ gap: 1 }}>
+                <Image source = {{uri: item.uri}} style = {{aspectRatio: 3 / 4, borderRadius: 5}}/>
+                </Pressable>
+                </Link>
             )}/>
-           
-
-
-
-
       <Link href="/camera" asChild>
         <Pressable style={styles.floatingButton}>
           <MaterialIcons name="photo-camera" size={30} color="white"  />
         </Pressable>
       </Link>
 
-      <Text style={{ fontSize: 24, fontWeight: "600", marginTop: 16 }}>
-        Home Screen
-      </Text>
-
-
-            <Link href = "/image 1">Image 1</Link>
-            <Link href = "/image 2">Image 2</Link>
-            <Link href = "/image 3">Image 3</Link>
     </View>
     )
 

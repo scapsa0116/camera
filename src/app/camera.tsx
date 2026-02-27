@@ -83,7 +83,7 @@ const saveFile = async (uri: string) => {
             <Link href = "/">Home</Link>
             <MaterialIcons 
             name = 'close' 
-            color={'white'} 
+            color={'black'} 
             style = {styles.close} 
             size={30} 
             onPress={()=> router.back()}/>
