@@ -9,9 +9,10 @@ export default function ImageScreen() {
   const fullUri = (FileSystem.documentDirectory || '') + (name || '');
 
   const onDelete = async () => {
-    await FileSystem.deleteAsync(fullUri);
-    router.back();
-  };
+  if (!fullUri) return; // safety
+  await FileSystem.deleteAsync(fullUri, { idempotent: true });
+  router.back();
+};
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
