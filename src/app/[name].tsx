@@ -1,6 +1,6 @@
 import { Link, useLocalSearchParams, Stack, router } from 'expo-router';
 import { View, Image } from 'react-native';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from "expo-file-system/legacy";
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function ImageScreen() {

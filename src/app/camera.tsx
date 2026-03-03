@@ -18,7 +18,7 @@ import { useEffect, useState, useRef } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import path from 'path';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from "expo-file-system/legacy";
 
 export default function CameraScreen() {
   const [permission, requestPermission] = useCameraPermissions();

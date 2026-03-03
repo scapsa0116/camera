@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useEffect, useState } from 'react';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from "expo-file-system/legacy";
 
 type Media = {
   name: string;
