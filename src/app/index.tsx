@@ -42,16 +42,25 @@ export default function HomeScreen () {
 
     return(
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <FlatList data = {images} renderItem = {({item}) => (
-                <Link href={`/${item.name}`} asChild>
-                <Pressable 
-                style = {{flex: 1, maxWidth: '33.33%'}}
-                contentContainerStyle={{ gap: 1 }}
-                columnWrapperStyle={{ gap: 1 }}>
-                <Image source = {{uri: item.uri}} style = {{aspectRatio: 3 / 4, borderRadius: 5}}/>
-                </Pressable>
-                </Link>
-            )}/>
+            
+            <FlatList
+  data={images}
+  keyExtractor={(item) => item.name}
+  numColumns={3}
+  contentContainerStyle={{ gap: 1, padding: 1 }}
+  columnWrapperStyle={{ gap: 1 }}
+  renderItem={({ item }) => (
+    <Link href={`/${item.name}`} asChild>
+      <Pressable style={{ flex: 1, maxWidth: "33.33%" }}>
+        <Image
+          source={{ uri: item.uri }}
+          style={{ width: "100%", aspectRatio: 3 / 4, borderRadius: 5 }}
+        />
+      </Pressable>
+    </Link>
+  )}
+/>
+            
       <Link href="/camera" asChild>
         <Pressable style={styles.floatingButton}>
           <MaterialIcons name="photo-camera" size={30} color="white"  />

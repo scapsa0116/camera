@@ -1,10 +1,11 @@
-import { View, Text, ActivityIndicator, StyleSheet, Pressable, Image,Button,SafeAreaView} from "react-native"
+import { View, Text, ActivityIndicator, StyleSheet, Pressable, Image,Button,} from "react-native"
 import { Link, router, Stack } from "expo-router"
 import { useCameraPermissions, CameraView, CameraType, CameraCapturedPicture } from "expo-camera"
 import { useEffect, useState, useRef} from "react"
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons'
-import { documentDirectory } from "expo-file-system"
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from "expo-file-system/legacy";
+
 import path from "path"
 
 export default function CameraScreen () {
@@ -52,17 +53,32 @@ if (picture) {
     </View>
 }
 
-const saveFile = async (uri: string) => {
-  const filename = path.parse(uri).base;
+// const saveFile = async (uri: string) => {
+//   const filename = path.parse(uri).base;
   
-  await FileSystem.copyAsync({
-    from: uri,
-    to: FileSystem.documentDirectory + filename,
-  });
-  setPicture(undefined);
+//   await FileSystem.copyAsync({
+//     from: uri,
+//     to: FileSystem.documentDirectory + filename,
+//   });
+//   setPicture(undefined);
 
-  router.push('/');
+//   router.push('/');
+// };
+
+// 
+const saveFile = async (uri: string) => {
+  const dir = FileSystem.documentDirectory;
+  if (!dir) throw new Error("documentDirectory is not available");
+
+  const filename = `photo-${Date.now()}.jpg`;
+  const dest = dir + filename;
+
+  await FileSystem.copyAsync({ from: uri, to: dest });
+
+  setPicture(undefined);
+  router.back(); // go back to Home, Home will reload files
 };
+
 
     return(
         <View>
